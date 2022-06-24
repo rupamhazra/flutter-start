@@ -7,30 +7,22 @@ class SlideItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      //mainAxisAlignment: MainAxisAlignment.center,
+      //crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          width: 150,
+          width: 350,
           height: 150,
           decoration: BoxDecoration(
-              shape: BoxShape.circle,
+              shape: BoxShape.rectangle,
               image: DecorationImage(
                   image: AssetImage(slideList[index].imageUrl),
-                  fit: BoxFit.cover)),
+                  fit: BoxFit.fill)),
         ),
-        SizedBox(
-          height: 30,
-        ),
-        Text(slideList[index].title,
-            style: TextStyle(color: Theme.of(context).primaryColor)),
-        SizedBox(
-          height: 15,
-        ),
-        Text(
-         slideList[index].description,
-          textAlign: TextAlign.center,
-        ),
+        
+        
+        
+        
       ],
     );
   }

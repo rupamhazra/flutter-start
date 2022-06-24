@@ -1,9 +1,49 @@
 import 'package:flutter/material.dart';
 import './details_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
-class MainDrawer extends StatelessWidget {
+class MainDrawer extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
+  MainDrawerState createState() => MainDrawerState();
+}
+
+class MainDrawerState extends State {
+  String _name = '';
+  String _email = '';
+  String _contactno = '';
+  String _profileImage = '';
+  Map<String, dynamic> userDetails;
+  checkData() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      userDetails = json.decode(_prefs.getString('result'));
+      print('Response body: ${userDetails['result']}');
+      _name = userDetails['result']['name'];
+      _email = userDetails['result']['email'];
+      _contactno = userDetails['result']['contact'];
+      _profileImage = 'http://tobuekalabya.com/rskart/uploads/'+userDetails['result']['profile_image'];
+      // print('_name: ${_name}');
+    });
+  }
+
+  logout() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    _prefs.clear();
+    Navigator.of(context).pushNamed('/login-screen');
+  }
+
+  @override
+  void initState() {
+    checkData();
+    super.initState();
+  }
+
+  @override
+  Widget build(
+    BuildContext context,
+  ) {
     return Drawer(
       child: Column(
         children: [
@@ -21,16 +61,13 @@ class MainDrawer extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                          image: NetworkImage(
-                              'https://secure.gravatar.com/avatar/317e886f9db6f48efe76ecb91034184a?s=100&d=mm&r=g'),
-                          fit: BoxFit.fill),
+                          image: NetworkImage(_profileImage), fit: BoxFit.fill),
                     ),
                   ),
-                  Text('Rupam Hazra',
+                  Text(_name,
                       style: TextStyle(fontSize: 20, color: Colors.white)),
-                  Text('rupamhazra@gmail.com',
-                      style: TextStyle(color: Colors.white)),
-                  Text('9038698174', style: TextStyle(color: Colors.white)),
+                  Text(_email, style: TextStyle(color: Colors.white)),
+                  Text(_contactno, style: TextStyle(color: Colors.white)),
                 ],
               ),
             ),
@@ -39,8 +76,7 @@ class MainDrawer extends StatelessWidget {
             leading: Icon(Icons.person),
             title: Text('My Account'),
             onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed('/details-screen');
+              Navigator.of(context).pushNamed('/profile-screen');
             },
           ),
           ListTile(
@@ -49,10 +85,11 @@ class MainDrawer extends StatelessWidget {
             onTap: null,
           ),
           ListTile(
-            leading: Icon(Icons.arrow_back),
-            title: Text('Logout'),
-            onTap: null,
-          )
+              leading: Icon(Icons.arrow_back),
+              title: Text('Logout'),
+              onTap: () {
+                logout();
+              })
         ],
       ),
     );

@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
 class SignupScreen extends StatelessWidget {
+  String _name ='';
+  void checkData() async {
+    //print('check data: ${value}');
+    _name = 'ggggg';
+    //print('_name: ${this._name}');
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +24,7 @@ class SignupScreen extends StatelessWidget {
             return Container(
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 color: Theme.of(context).primaryColor,
-                width: double.infinity,
+                //width: double.infinity,
                 child: SingleChildScrollView(
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
@@ -28,6 +34,7 @@ class SignupScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      Text(_name),
                       Image.asset(
                         'assets/images/icon.png',
                         height: 80,
@@ -39,7 +46,7 @@ class SignupScreen extends StatelessWidget {
                         decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            hintText: 'Email',
+                            hintText: 'Email'+_name,
                             contentPadding:
                                 EdgeInsets.only(left: 15, right: 15),
                             focusedBorder: OutlineInputBorder(
@@ -118,8 +125,10 @@ class SignupScreen extends StatelessWidget {
                     ],
                   ),
                   )
-                ));
+                )
+                );
           },
-        ));
+        )
+        );
   }
 }
